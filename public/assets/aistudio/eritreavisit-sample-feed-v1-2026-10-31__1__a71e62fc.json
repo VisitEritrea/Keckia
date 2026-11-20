@@ -1,0 +1,466 @@
+{
+  "notice": "FICTIONAL SAMPLE DATA FOR TESTING FEED SCHEMA VERSION 1 - ERITREAVISIT OPERATIONS",
+  "generatedAt": "2026-10-31T07:55:00.000Z",
+  "timezone": "Africa/Asmara",
+  "reviewSchedule": {
+    "plannedHours": [
+      "07:00",
+      "22:00"
+    ],
+    "timezone": "Africa/Asmara"
+  },
+  "sources": [
+    {
+      "id": "gcal_master",
+      "type": "google_calendar",
+      "name": "Eritrea Tours Master Calendar",
+      "checkedAt": "2026-10-31T07:55:00.000Z",
+      "coverage": "2026-10-25..2026-11-25",
+      "status": "ok"
+    },
+    {
+      "id": "flight_feed",
+      "type": "aviation_api",
+      "name": "Asmara International Airport (ASM) Ops",
+      "checkedAt": "2026-10-31T07:58:00.000Z",
+      "coverage": "2026-10-31..2026-11-10",
+      "status": "ok"
+    },
+    {
+      "id": "whatsapp_uchat",
+      "type": "multichannel_inbox",
+      "name": "WhatsApp & UChat Gateway",
+      "checkedAt": "2026-10-31T07:50:00.000Z",
+      "coverage": "Real-time sync",
+      "status": "partial",
+      "error": "UChat webhook token renewal required within 48h; WhatsApp active",
+      "missingAuth": false
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_tk651_arrival",
+      "calendarId": "flight_feed",
+      "calendarName": "Asmara Airport (ASM) Flight Ops",
+      "title": "Arrival TK651: Selam Tesfay (ASM landing)",
+      "description": "Turkish Airlines flight TK651 from Istanbul (IST). Landing at Asmara Airport at 01:25 EAT midnight slot. Driver Yemane with Land Cruiser ER-2-18492.",
+      "start": {
+        "dateTime": "2026-11-05T01:25:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-05T02:15:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#0b8043",
+      "label": "Arrival (Flight / Port)",
+      "flightNumber": "TK651",
+      "airportCode": "ASM",
+      "location": "Asmara International Airport (ASM), Terminal 1",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_tk651",
+      "status": "confirmed",
+      "cities": [
+        "Asmara"
+      ],
+      "dailyCityMap": {
+        "2026-11-05": "Asmara"
+      },
+      "hotelName": "Hotel Asmara Palace",
+      "driverName": "Yemane Berhe",
+      "guideName": "Habtom Ghebre",
+      "travelerId": "trav_selam_01"
+    },
+    {
+      "id": "evt_steam_charter",
+      "calendarId": "gcal_master",
+      "calendarName": "Eritrea Tours Master Calendar",
+      "title": "Special-Interest: Vintage 1938 Ansaldo Steam Train Charter (Asmara -> Nefasit)",
+      "description": "Chartered 1938 Ansaldo 442 steam locomotive photography run on escarpment viaducts with photographer Marcus Vance.",
+      "start": {
+        "dateTime": "2026-11-06T08:30:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-06T15:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#f57c00",
+      "categoryKey": "special_interest",
+      "label": "Special-Interest Client",
+      "location": "Asmara Railway Station & Nefasit Escarpment",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_train",
+      "status": "confirmed",
+      "cities": [
+        "Asmara",
+        "Nefasit"
+      ],
+      "dailyCityMap": {
+        "2026-11-06": "Asmara (Nefasit Viaduct)"
+      },
+      "guideName": "Filmon Kidane",
+      "driverName": "Tekle Haile",
+      "travelerId": "trav_marcus_02"
+    },
+    {
+      "id": "evt_dahlak_multiday",
+      "calendarId": "gcal_master",
+      "calendarName": "Eritrea Tours Master Calendar",
+      "title": "Red Sea Coastal & Dahlak Marine Expedition",
+      "description": "Escarpment descent to Massawa and private catamaran transit to Dahlak Archipelago.",
+      "start": {
+        "date": "2026-11-07"
+      },
+      "end": {
+        "date": "2026-11-09"
+      },
+      "allDay": true,
+      "colorHex": "#039be5",
+      "categoryKey": "tour_operators",
+      "label": "Tour Operator Partner",
+      "location": "Massawa & Dahlak Marine National Park",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_dahlak",
+      "status": "confirmed",
+      "cities": [
+        "Asmara",
+        "Massawa",
+        "Dahlak Kebir"
+      ],
+      "dailyCityMap": {
+        "2026-11-07": "Asmara",
+        "2026-11-08": "Massawa",
+        "2026-11-09": "Dahlak Kebir"
+      },
+      "hotelName": "Grand Dahlak Hotel & Dissei Camp",
+      "guideName": "Captain Amanuel",
+      "travelerId": "trav_selam_01"
+    },
+    {
+      "id": "evt_luxury_villa",
+      "calendarId": "gcal_master",
+      "calendarName": "Eritrea Tours Master Calendar",
+      "title": "Luxury Request: Private Island Villa & Speedboat Transfer",
+      "description": "Exclusive beachfront eco-villa charter with private chef and diving instructor.",
+      "start": {
+        "dateTime": "2026-11-10T11:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-10T20:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#c2185b",
+      "categoryKey": "luxury",
+      "label": "Luxury VIP Charter",
+      "location": "Dissei Island Private Station, Massawa",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_luxury",
+      "status": "confirmed",
+      "cities": [
+        "Dissei Island"
+      ],
+      "dailyCityMap": {
+        "2026-11-10": "Dissei Island"
+      },
+      "hotelName": "Dissei Royal Eco-Villa",
+      "travelerId": "trav_selam_01"
+    },
+    {
+      "id": "evt_et322_departure",
+      "calendarId": "flight_feed",
+      "calendarName": "Asmara Airport (ASM) Flight Ops",
+      "title": "Departure ET322: Marcus Vance (ASM departs to ADD)",
+      "description": "Ethiopian Airlines flight ET322 outbound departure connecting to London Heathrow. Check-in 17:00.",
+      "start": {
+        "dateTime": "2026-11-12T19:40:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-12T21:10:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#d50000",
+      "label": "Departure (Flight / Port)",
+      "flightNumber": "ET322",
+      "airportCode": "ASM",
+      "location": "Asmara International Airport (ASM), International Departures",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_et322",
+      "status": "confirmed",
+      "cities": [
+        "Asmara"
+      ],
+      "dailyCityMap": {
+        "2026-11-12": "Asmara"
+      },
+      "driverName": "Yemane Berhe",
+      "travelerId": "trav_marcus_02"
+    },
+    {
+      "id": "evt_ambiguous_red_meeting",
+      "calendarId": "gcal_master",
+      "calendarName": "Eritrea Tours Master Calendar",
+      "title": "Italian Escarpment Viaduct Walk & Technical Safety Check",
+      "description": "Historical red color used in legacy calendar. Inspection of Arbaroba bridges with Ministry engineers. Lacks departure text evidence.",
+      "start": {
+        "dateTime": "2026-11-13T09:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-13T12:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#d50000",
+      "location": "Arbaroba Bridge #14, Route P-1",
+      "sourceUrl": "https://calendar.google.com/calendar/u/0/r/eventedit/sample_viaduct",
+      "status": "confirmed",
+      "cities": [
+        "Arbaroba"
+      ],
+      "dailyCityMap": {
+        "2026-11-13": "Arbaroba"
+      }
+    },
+    {
+      "id": "evt_undetermined_city_briefing",
+      "calendarId": "gcal_master",
+      "calendarName": "Eritrea Tours Master Calendar",
+      "title": "Antiquities Research Briefing: Dr. Elena Rostova",
+      "description": "Site selection pending archaeological division clearance. No city assigned yet.",
+      "start": {
+        "dateTime": "2026-11-14T10:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "end": {
+        "dateTime": "2026-11-14T12:00:00+03:00",
+        "timeZone": "Africa/Asmara"
+      },
+      "allDay": false,
+      "colorHex": "#8e24aa",
+      "categoryKey": "groups",
+      "label": "Group Expedition / Delegation",
+      "travelerId": "trav_elena_03"
+    }
+  ],
+  "travelers": [
+    {
+      "id": "trav_selam_01",
+      "name": "Selam Tesfay",
+      "email": "selam.tesfay@diaspora-uk.org",
+      "phone": "+44 7700 900142",
+      "whatsapp": "+447700900142",
+      "nationality": "British-Eritrean",
+      "bookingStage": "Confirmed",
+      "confirmedStatus": "Confirmed",
+      "itinerarySummary": "Asmara Art Deco Heritage, Massawa Red Sea Port & Dahlak Marine Diving",
+      "interests": [
+        "Art Deco Architecture",
+        "Red Sea Scuba Diving",
+        "Diaspora Roots & Heritage"
+      ],
+      "price": 2450,
+      "currency": "USD",
+      "paymentStatus": "Paid",
+      "amountPaid": 2450,
+      "flightDetails": {
+        "arrivalFlight": "TK651",
+        "arrivalAirport": "ASM",
+        "arrivalTime": "01:25 AM EAT (Nov 5)",
+        "departureFlight": "TK652",
+        "departureAirport": "ASM",
+        "departureTime": "02:30 AM EAT (Nov 15)"
+      },
+      "hotelDetails": {
+        "hotelName": "Hotel Asmara Palace & Grand Dahlak",
+        "roomType": "Deluxe Suite",
+        "checkIn": "2026-11-05",
+        "checkOut": "2026-11-15"
+      },
+      "mealRequirements": "Traditional Eritrean fasting cuisine on Wednesdays/Fridays (Vegan Alicha & Shiro)",
+      "visaStatus": "Visa on Arrival",
+      "guideAssignment": {
+        "name": "Habtom Ghebre",
+        "phone": "+291 7 124981",
+        "lodging": "Guide quarters reserved at Dahlak Camp & Sarina Hotel"
+      },
+      "driverAssignment": {
+        "name": "Yemane Berhe",
+        "phone": "+291 7 439012",
+        "vehicle": "Toyota Land Cruiser (ER-2-18492)",
+        "lodging": "Driver annex reserved at Grand Dahlak Massawa"
+      },
+      "notes": "VIP Diaspora guest celebrating family jubilee. High priority customer care.",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "trav_marcus_02",
+      "name": "Marcus Vance",
+      "email": "m.vance@geotours-explorer.com",
+      "phone": "+1 415 555 0198",
+      "whatsapp": "+14155550198",
+      "nationality": "American",
+      "bookingStage": "In Trip",
+      "confirmedStatus": "Confirmed",
+      "itinerarySummary": "Highland Highlands & Anseba Escarpment Photography Tour",
+      "interests": [
+        "Historic Steam Railway",
+        "High-altitude Treks",
+        "Landscape Photography"
+      ],
+      "price": 1890,
+      "currency": "USD",
+      "paymentStatus": "Paid",
+      "amountPaid": 1890,
+      "flightDetails": {
+        "arrivalFlight": "ET323",
+        "arrivalAirport": "ASM",
+        "arrivalTime": "11:45 AM EAT (Nov 2)",
+        "departureFlight": "ET322",
+        "departureAirport": "ASM",
+        "departureTime": "19:40 PM EAT (Nov 12)"
+      },
+      "hotelDetails": {
+        "hotelName": "Albergo Italia (Asmara)",
+        "roomType": "Heritage Balcony Single",
+        "checkIn": "2026-11-02",
+        "checkOut": "2026-11-12"
+      },
+      "mealRequirements": "Gluten-free preferences noted; prefers fresh fish and fruits",
+      "visaStatus": "Issued",
+      "guideAssignment": {
+        "name": "Filmon Kidane",
+        "phone": "+291 7 882103",
+        "lodging": "Staff room at Albergo Italia"
+      },
+      "driverAssignment": {
+        "name": "Tekle Haile",
+        "phone": "+291 7 554219",
+        "vehicle": "Nissan Patrol 4WD (ER-2-44102)",
+        "lodging": "Local staff lodge in Keren & Massawa"
+      },
+      "notes": "Travel photographer publishing feature on Asmara Italian rationalist architecture.",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "trav_elena_03",
+      "name": "Dr. Elena Rostova",
+      "email": "elena.rostova@archaeo-inst.org",
+      "phone": "+49 171 2345678",
+      "nationality": "German",
+      "bookingStage": "Proposal",
+      "confirmedStatus": "Tentative",
+      "itinerarySummary": "Southern Red Sea & Kohaito Axumite Archaeological Route",
+      "interests": [
+        "Axumite Relics",
+        "Rock Art of Adi Keih",
+        "Southern Escarpment"
+      ],
+      "price": 3200,
+      "currency": "USD",
+      "paymentStatus": "Pending",
+      "amountPaid": 0,
+      "visaStatus": "Documents Needed",
+      "notes": "Requires antiquities research permit and 4WD escort convoy.",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_selam_wa",
+      "travelerId": "trav_selam_01",
+      "travelerName": "Selam Tesfay",
+      "channel": "whatsapp",
+      "status": "waiting-for-client",
+      "lastMessageAt": "2026-10-31T06:15:00.000Z",
+      "subject": "Arrival Transfer & Midnight Landing Briefing",
+      "messages": [
+        {
+          "id": "msg_01",
+          "sender": "client",
+          "content": "Hello EritreaVisit team! Just verifying that our driver Yemane will meet us at the arrivals exit gate at 01:25 AM on Nov 5?",
+          "timestamp": "2026-10-31T05:30:00.000Z"
+        },
+        {
+          "id": "msg_02",
+          "sender": "agent",
+          "senderName": "Michael (Operations)",
+          "content": "Dearest Selam, absolutely yes! Yemane will be right outside the arrivals hall with an EritreaVisit name badge, fresh chilled mineral water, and Land Cruiser ER-2-18492. We have also notified Hotel Asmara Palace for late night check-in.",
+          "timestamp": "2026-10-31T06:15:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "conv_marcus_email",
+      "travelerId": "trav_marcus_02",
+      "travelerName": "Marcus Vance",
+      "channel": "email",
+      "status": "unanswered",
+      "lastMessageAt": "2026-10-31T07:10:00.000Z",
+      "subject": "Steam Train Railway Excursion permit on Sunday?",
+      "messages": [
+        {
+          "id": "msg_03",
+          "sender": "client",
+          "content": "Hi Phil and team, is the vintage 1938 Ansaldo steam locomotive charter confirmed for Sunday morning between Asmara and Nefasit? I have two medium-format camera setups I want to bring.",
+          "timestamp": "2026-10-31T07:10:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "conv_elena_uchat",
+      "travelerId": "trav_elena_03",
+      "travelerName": "Dr. Elena Rostova",
+      "channel": "uchat",
+      "status": "bot-only",
+      "lastMessageAt": "2026-10-31T07:45:00.000Z",
+      "subject": "Visa on Arrival requirements for German passport holders",
+      "messages": [
+        {
+          "id": "msg_04",
+          "sender": "client",
+          "content": "Hello, what documents are needed for expedited Visa on Arrival to visit the Kohaito ruins?",
+          "timestamp": "2026-10-31T07:44:00.000Z"
+        },
+        {
+          "id": "msg_05",
+          "sender": "bot",
+          "senderName": "EritreaVisit Virtual Concierge",
+          "content": "Welcome Dr. Elena! For German nationals, Visa on Arrival requires a formal invitation letter from EritreaVisit, valid passport (min 6 months), 2 biometric passport photos, and $50 USD consular fee upon landing at Asmara Airport.",
+          "timestamp": "2026-10-31T07:45:00.000Z"
+        }
+      ]
+    }
+  ],
+  "drafts": [
+    {
+      "id": "draft_marcus_steam_train",
+      "travelerId": "trav_marcus_02",
+      "conversationId": "conv_marcus_email",
+      "type": "reply",
+      "title": "Suggested Email Reply to Marcus Vance re: Steam Train",
+      "proposedAction": "Send email confirmation for Steam Locomotive Ansaldo 442 excursion to Nefasit",
+      "details": {
+        "to": "m.vance@geotours-explorer.com",
+        "subject": "Re: Steam Train Railway Excursion permit on Sunday?",
+        "body": "Dear Marcus, yes! The Eritrean Railway Authority has authorized the 1938 Ansaldo 442 steam engine charter departing Asmara Station at 08:30 AM on Sunday. Your guide Filmon and two tripod spots in the open observation car are reserved."
+      },
+      "requiresApproval": true,
+      "status": "pending"
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "conflict_driver_overlap",
+      "severity": "medium",
+      "title": "Potential Driver Schedule Overlap: Yemane Berhe",
+      "description": "Driver Yemane Berhe is assigned to midnight airport arrival TK651 (01:25 AM Nov 5) and an early morning city art-deco transfer at 07:30 AM. Verify driver rest period compliance.",
+      "eventIds": [
+        "evt_tk651_arrival"
+      ],
+      "travelerId": "trav_selam_01",
+      "detectedAt": "2026-10-31T07:55:00.000Z"
+    }
+  ]
+}

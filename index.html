@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+        try {
+          var origFetch = typeof window !== 'undefined' ? window.fetch : null;
+          if (origFetch) {
+            var currentFetch = origFetch;
+            try {
+              Object.defineProperty(window, 'fetch', {
+                configurable: true,
+                enumerable: true,
+                get: function() { return currentFetch; },
+                set: function(fn) { currentFetch = fn; }
+              });
+            } catch (_) {}
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EritreaVisit Operations Hub</title>
+    <meta name="description" content="Unified tour operations, HR, ticketing, visas, hotel bookings, transport fleet, and finance management suite for EritreaVisit." />
+    <meta property="og:title" content="EritreaVisit Operations Hub" />
+    <meta property="og:description" content="Unified tour operations, HR, ticketing, visas, hotel bookings, transport fleet, and finance management suite for EritreaVisit." />
+    <link rel="icon" type="image/svg+xml" href="/brand/mark.svg" />
+    <link rel="apple-touch-icon" href="/brand/eritreavisit-logo.jpg" />
+    <meta name="theme-color" content="#EF5423" />
+
+    <!--
+      Typography.
+
+      Plus Jakarta Sans for everything the eye reads all day — body copy and
+      headings alike. It was drawn for modern product interfaces, carries
+      real italics (the touch this suite's headings lean on) and tabular
+      figures, and holds up from dense 12–13px table text up to the display
+      weights used on section titles, so there's one consistent voice
+      throughout instead of a body/heading pair fighting each other.
+
+      Noto Sans Ethiopic is not decoration — the suite writes Tigrinya on hotel
+      letters, rental requisitions and staff records, and without it those
+      words fall back to whatever font the computer happens to have, which on
+      most Windows machines is nothing at all.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600;1,700;1,800&family=Noto+Sans+Ethiopic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#FBF8F5] text-slate-900 antialiased selection:bg-brand-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

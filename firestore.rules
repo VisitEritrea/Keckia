@@ -1,0 +1,189 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default-Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Hardened Global Primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isBootstrappedAdminEmail() {
+      return isVerifiedUser() && (
+        request.auth.token.email == 'philikesete@gmail.com' ||
+        request.auth.token.email == 'tours@eritreavisit.com'
+      );
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdminEmail() || (
+        isVerifiedUser() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidAiAccount(data, providerId) {
+      return data.keys().hasAll([
+          'providerId', 'providerLabel', 'accountEmail', 'defaultModel',
+          'workspaceName', 'pipelineRole', 'routingPriority', 'enabled',
+          'autoExecute', 'credentialSource', 'ownerUid', 'updatedBy',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'providerId', 'providerLabel', 'accountEmail', 'defaultModel',
+          'workspaceName', 'pipelineRole', 'routingPriority', 'enabled',
+          'autoExecute', 'credentialSource', 'ownerUid', 'updatedBy',
+          'createdAt', 'updatedAt'
+        ])
+        && data.providerId is string && data.providerId == providerId
+        && data.providerId in ['gemini', 'openai', 'anthropic', 'gmail_agency']
+        && data.providerLabel is string && data.providerLabel.size() >= 2 && data.providerLabel.size() <= 64
+        && data.accountEmail is string && data.accountEmail.size() >= 5 && data.accountEmail.size() <= 120
+        && data.defaultModel is string && data.defaultModel.size() >= 2 && data.defaultModel.size() <= 80
+        && data.workspaceName is string && data.workspaceName.size() >= 2 && data.workspaceName.size() <= 120
+        && data.pipelineRole is string && data.pipelineRole.size() >= 2 && data.pipelineRole.size() <= 180
+        && data.routingPriority is int && data.routingPriority >= 0 && data.routingPriority <= 10
+        && data.enabled is bool
+        && data.autoExecute is bool
+        && data.credentialSource is string && data.credentialSource.size() >= 2 && data.credentialSource.size() <= 100
+        && isValidId(data.ownerUid)
+        && data.updatedBy is string && data.updatedBy.size() >= 2 && data.updatedBy.size() <= 120
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidAutomationPlan(data, planId) {
+      return data.keys().hasAll([
+          'planId', 'travelerName', 'hotelName', 'hotelRefNumber',
+          'visaDocNumber', 'permitNumber', 'status', 'ownerUid',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'planId', 'travelerName', 'hotelName', 'hotelRefNumber',
+          'visaDocNumber', 'permitNumber', 'status', 'ownerUid',
+          'createdAt', 'updatedAt'
+        ])
+        && data.planId is string && data.planId == planId
+        && data.travelerName is string && data.travelerName.size() >= 2 && data.travelerName.size() <= 120
+        && data.hotelName is string && data.hotelName.size() >= 2 && data.hotelName.size() <= 120
+        && data.hotelRefNumber is string && data.hotelRefNumber.size() >= 2 && data.hotelRefNumber.size() <= 64
+        && data.visaDocNumber is string && data.visaDocNumber.size() >= 2 && data.visaDocNumber.size() <= 64
+        && data.permitNumber is string && data.permitNumber.size() >= 2 && data.permitNumber.size() <= 64
+        && data.status is string && data.status in ['pending', 'in_progress', 'completed']
+        && isValidId(data.ownerUid)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidAdminDoc(data, uid) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'createdAt'])
+        && data.keys().hasOnly(['uid', 'email', 'role', 'createdAt'])
+        && isValidId(data.uid) && data.uid == uid
+        && data.email is string && data.email.size() >= 5 && data.email.size() <= 120
+        && data.role == 'admin'
+        && data.createdAt is timestamp;
+    }
+
+    // Startup connection validation probe
+    match /test/connection {
+      allow get: if isSignedIn();
+      allow list: if false;
+    }
+
+    // Admin registry
+    match /admins/{uid} {
+      allow get: if isValidId(uid) && (isAdmin() || (isVerifiedUser() && request.auth.uid == uid));
+      allow list: if false;
+      allow create: if isValidId(uid) && isAdmin() && isValidAdminDoc(incoming(), uid)
+        && incoming().createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    // AI Provider Account Profiles (Gemini, OpenAI, Anthropic, Agency Gmail)
+    match /ai_accounts/{providerId} {
+      allow get: if isValidId(providerId) && isVerifiedUser()
+        && (existing().ownerUid == request.auth.uid || isAdmin());
+      // No get()/exists() in list rules to satisfy O(1) cost guard
+      allow list: if isVerifiedUser()
+        && (resource.data.ownerUid == request.auth.uid || isBootstrappedAdminEmail());
+      allow create: if isValidId(providerId) && isVerifiedUser()
+        && isValidAiAccount(incoming(), providerId)
+        && incoming().ownerUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(providerId) && isVerifiedUser()
+        && isValidAiAccount(incoming(), providerId)
+        && incoming().ownerUid == existing().ownerUid
+        && incoming().providerId == existing().providerId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly([
+            'providerLabel', 'accountEmail', 'defaultModel', 'workspaceName',
+            'pipelineRole', 'routingPriority', 'enabled', 'autoExecute',
+            'credentialSource', 'updatedBy', 'updatedAt'
+          ])) ||
+          (existing().ownerUid == request.auth.uid &&
+           incoming().diff(existing()).affectedKeys().hasOnly([
+            'providerLabel', 'accountEmail', 'defaultModel', 'workspaceName',
+            'pipelineRole', 'routingPriority', 'enabled', 'autoExecute',
+            'updatedBy', 'updatedAt'
+          ]))
+        );
+      allow delete: if isValidId(providerId) && isAdmin();
+    }
+
+    // Sequential Booking Automation State (Hotel -> Visa -> Permit)
+    match /automation_plans/{planId} {
+      allow get: if isValidId(planId) && isVerifiedUser()
+        && (existing().ownerUid == request.auth.uid || isAdmin());
+      // No get()/exists() in list rules to satisfy O(1) cost guard
+      allow list: if isVerifiedUser()
+        && (resource.data.ownerUid == request.auth.uid || isBootstrappedAdminEmail());
+      allow create: if isValidId(planId) && isVerifiedUser()
+        && isValidAutomationPlan(incoming(), planId)
+        && incoming().ownerUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(planId) && isVerifiedUser()
+        && isValidAutomationPlan(incoming(), planId)
+        && incoming().ownerUid == existing().ownerUid
+        && incoming().planId == existing().planId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (existing().status != 'completed' || isAdmin())
+        && (
+          (isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly([
+            'travelerName', 'hotelName', 'hotelRefNumber',
+            'visaDocNumber', 'permitNumber', 'status', 'updatedAt'
+          ])) ||
+          (existing().ownerUid == request.auth.uid &&
+           incoming().diff(existing()).affectedKeys().hasOnly([
+            'travelerName', 'hotelName', 'hotelRefNumber',
+            'visaDocNumber', 'permitNumber', 'status', 'updatedAt'
+          ]))
+        );
+      allow delete: if isValidId(planId) && isAdmin();
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "entities": {
+    "AiProviderAccount": {
+      "title": "AiProviderAccount",
+      "description": "Pre-configured non-secret AI provider and agency mailbox profile for EritreaVisit booking automation.",
+      "type": "object",
+      "properties": {
+        "providerId": {
+          "type": "string",
+          "enum": ["gemini", "openai", "anthropic", "gmail_agency"],
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Unique provider identifier."
+        },
+        "providerLabel": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "description": "Human-readable provider name."
+        },
+        "accountEmail": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 120,
+          "description": "Linked operator account email."
+        },
+        "defaultModel": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Default runtime model identifier."
+        },
+        "workspaceName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Associated cloud project or workspace name."
+        },
+        "pipelineRole": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 180,
+          "description": "Assigned stage responsibility in the Hotel -> Visa -> Permit workflow."
+        },
+        "routingPriority": {
+          "type": "number",
+          "description": "Order of execution priority."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider profile is enabled."
+        },
+        "autoExecute": {
+          "type": "boolean",
+          "description": "Whether incoming booking emails auto-execute through this profile."
+        },
+        "credentialSource": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Server-side proxy or OAuth credential mechanism (never stores secrets)."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the owner."
+        },
+        "updatedBy": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Actor email or username that last updated this profile."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "providerId",
+        "providerLabel",
+        "accountEmail",
+        "defaultModel",
+        "workspaceName",
+        "pipelineRole",
+        "routingPriority",
+        "enabled",
+        "autoExecute",
+        "credentialSource",
+        "ownerUid",
+        "updatedBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BookingAutomationState": {
+      "title": "BookingAutomationState",
+      "description": "Tracks sequential booking completion (Hotel + Letter -> Visa -> Travel Permit) for a verified agency email.",
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "travelerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "hotelName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "hotelRefNumber": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "visaDocNumber": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "permitNumber": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "completed"],
+          "maxLength": 32
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "planId",
+        "travelerName",
+        "hotelName",
+        "hotelRefNumber",
+        "visaDocNumber",
+        "permitNumber",
+        "status",
+        "ownerUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Registered administrator access record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 120
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"],
+          "maxLength": 16
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/ai_accounts/{providerId}": {
+      "schema": { "$ref": "#/entities/AiProviderAccount" },
+      "description": "AI provider account configurations (Gemini, OpenAI, Anthropic, Agency Gmail)."
+    },
+    "/automation_plans/{planId}": {
+      "schema": { "$ref": "#/entities/BookingAutomationState" },
+      "description": "Completed sequential booking state records."
+    },
+    "/admins/{uid}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized administrator registry."
+    }
+  }
+}
